@@ -47,7 +47,7 @@ class BookManagmentTest extends TestCase
 
         $response = $this->patch($book->path(),[
             'title' => 'New Title',
-            'author_id' => 'New Author'
+            'author_id' => 'New Author',
         ]);
 
         $this->assertEquals('New Title', Book::first()->title);
@@ -68,6 +68,7 @@ class BookManagmentTest extends TestCase
         $response->assertRedirect('/books');
     }
 
+
     public function test_author_added_automatically_if_not_exists_when_creating_a_new_book()
     {
         $this->withoutExceptionHandling();
@@ -80,8 +81,11 @@ class BookManagmentTest extends TestCase
         $book = Book::first();
         $author = Author::first();
 
-        $this->assertcount(1, $book->all());
+
+
         $this->assertEquals($author->id, $book->author_id);
+        $this->assertcount(1,Author::all());
+
     }
 
 
