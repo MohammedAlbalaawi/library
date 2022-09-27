@@ -68,12 +68,19 @@ class BookManagmentTest extends TestCase
         $response->assertRedirect('/books');
     }
 
-    public function test_can_create_author_when_creating_new_book()
+
+    public function test_author_added_automatically_if_not_exists_when_creating_a_new_book()
     {
-        $response = $this->post('/books',$this->data());
+        $this->withoutExceptionHandling();
+
+        $this->post('/books',[
+            'title' => 'Cool Book Title',
+            'author_id' => 'Victor'
+        ]);
 
         $book = Book::first();
         $author = Author::first();
+
 
 
         $this->assertEquals($author->id, $book->author_id);
